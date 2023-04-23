@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: order-service-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: order-service
+  template:
+    metadata:
+      labels:
+        app: order-service
+    spec:
+      containers:
+        - name: order-service
+          image: nischalrbhat/serv2:1.0
+          env:
+            - name: MONGODB_URI
+              value: mongodb://mongodb-service:27017/order-service
+            - name: RABBITMQ_URI
+              value: amqp://rabbitmq-service:5672
+          ports:
+            - containerPort: 3000
